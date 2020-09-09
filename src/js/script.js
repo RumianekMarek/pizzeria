@@ -52,7 +52,59 @@
     menuProduct: Handlebars.compile(document.querySelector(select.templateOf.menuProduct).innerHTML),
   };
 
+  class Product{
+      constructor(id, data){
+        const thisProduct = this;
+
+        thisProduct.id = id;
+        thisProduct.data = data;
+
+        thisProduct.renderInMenu();
+        thisProduct.initAccordion();
+      }
+
+      renderInMenu(){
+        const thisProduct = this;
+        const generatedHTML = templates.menuProduct(thisProduct.data);
+        thisProduct.element = utils.createDOMFromHTML(generatedHTML);
+        const menuContainer = document.querySelector(select.containerOf.menu);
+        thisProduct.element.id = thisProduct.id;
+        menuContainer.appendChild(thisProduct.element);
+
+
+      }
+
+      initAccordion(){
+        const thisProduct = this;
+        const elementAnchor = document.getElementById(thisProduct.id);
+        console.log(document.getElementById(thisProduct.id));
+        elementAnchor.className = "product inactive";
+          elementAnchor.addEventListener('click', function(){
+            for (let key in dataSource.products)
+            document.getElementById(key).className = "product inactive"
+            elementAnchor.className = "product active";
+
+        })
+      }
+  }
+
   const app = {
+    initData: function(){
+      const thisApp = this;
+
+      thisApp.data = dataSource;
+    },
+
+    initMenu: function(){
+      const thisApp = this;
+
+      console.log('thisApp.data:', thisApp.data);
+      
+      for(let productData in thisApp.data.products){
+        new Product(productData, thisApp.data.products[productData]);
+      }
+    },
+
     init: function(){
       const thisApp = this;
       console.log('*** App starting ***');
@@ -60,6 +112,9 @@
       console.log('classNames:', classNames);
       console.log('settings:', settings);
       console.log('templates:', templates);
+
+      thisApp.initData();
+      thisApp.initMenu();
     },
   };
 
