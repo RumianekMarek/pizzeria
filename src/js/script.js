@@ -53,39 +53,37 @@
   };
 
   class Product{
-      constructor(id, data){
-        const thisProduct = this;
+    constructor(id, data){
+      const thisProduct = this;
 
-        thisProduct.id = id;
-        thisProduct.data = data;
+      thisProduct.id = id;
+      thisProduct.data = data;
 
-        thisProduct.renderInMenu();
-        thisProduct.initAccordion();
-      }
+      thisProduct.renderInMenu();
+      thisProduct.initAccordion();
+    }
 
-      renderInMenu(){
-        const thisProduct = this;
-        const generatedHTML = templates.menuProduct(thisProduct.data);
-        thisProduct.element = utils.createDOMFromHTML(generatedHTML);
-        const menuContainer = document.querySelector(select.containerOf.menu);
-        thisProduct.element.id = thisProduct.id;
-        menuContainer.appendChild(thisProduct.element);
+    renderInMenu(){
+      const thisProduct = this;
+      const generatedHTML = templates.menuProduct(thisProduct.data);
+      thisProduct.element = utils.createDOMFromHTML(generatedHTML);
+      const menuContainer = document.querySelector(select.containerOf.menu);
+      thisProduct.element.id = thisProduct.id;
+      menuContainer.appendChild(thisProduct.element);
 
+    }
 
-      }
-
-      initAccordion(){
-        const thisProduct = this;
-        const elementAnchor = document.getElementById(thisProduct.id);
-        console.log(document.getElementById(thisProduct.id));
-        elementAnchor.className = "product inactive";
-          elementAnchor.addEventListener('click', function(){
-            for (let key in dataSource.products)
-            document.getElementById(key).className = "product inactive"
-            elementAnchor.className = "product active";
-
-        })
-      }
+    initAccordion(){
+      const thisProduct = this;
+      const elementAnchor = document.getElementById(thisProduct.id);
+      console.log(document.getElementById(thisProduct.id));
+      elementAnchor.className = 'product inactive';
+      elementAnchor.addEventListener('click', function(){
+        for (let key in dataSource.products)
+          document.getElementById(key).className = 'product inactive';
+        elementAnchor.className = 'product active';
+      });
+    }
   }
 
   const app = {
