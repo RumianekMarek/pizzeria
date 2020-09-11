@@ -60,7 +60,10 @@
       thisProduct.data = data;
 
       thisProduct.renderInMenu();
+      thisProduct.getElements();
       thisProduct.initAccordion();
+      thisProduct.initOrderForm();
+      thisProduct.processOrder();
     }
 
     renderInMenu(){
@@ -73,10 +76,26 @@
 
     }
 
+    getElements(){
+      const thisProduct = this;
+
+      thisProduct.accordionTrigger = thisProduct.element.querySelector(select.menuProduct.clickable);
+      thisProduct.form = thisProduct.element.querySelector(select.menuProduct.form);
+      thisProduct.formInputs = thisProduct.form.querySelectorAll(select.all.formInputs);
+      thisProduct.cartButton = thisProduct.element.querySelector(select.menuProduct.cartButton);
+      thisProduct.priceElem = thisProduct.element.querySelector(select.menuProduct.priceElem);
+
+      //console.log('acordingTriger', thisProduct.accordionTrigger);
+      //console.log('form', thisProduct.form);
+      //console.log('input',thisProduct.formInputs);
+      //console.log('cartButton', thisProduct.cartButton);
+      //console.log('thisProduct', thisProduct.priceElem);
+
+    }
+
     initAccordion(){
       const thisProduct = this;
       const elementAnchor = document.getElementById(thisProduct.id);
-      console.log(document.getElementById(thisProduct.id));
       elementAnchor.className = 'product inactive';
       elementAnchor.addEventListener('click', function(){
         for (let key in dataSource.products)
@@ -84,7 +103,52 @@
         elementAnchor.className = 'product active';
       });
     }
+
+    initOrderForm(){
+      const thisProduct = this;
+      thisProduct.form.addEventListener('submit', function(event){
+        event.preventDefault();
+        thisProduct.processOrder();
+      });
+      
+      for(let input of thisProduct.formInputs){
+        input.addEventListener('change', function(){
+          thisProduct.processOrder();
+        });
+      }
+      
+      thisProduct.cartButton.addEventListener('click', function(event){
+        event.preventDefault();
+        thisProduct.processOrder();
+      });
+    }
+
+    processOrder(){
+      const thisProduct = this;
+      const formData = utils.serializeFormToObject(thisProduct.form);
+      let price = dataSource.products[thisProduct.id].price;
+      console.log('formData', formData);
+      console.log(thisProduct.id, dataSource.products[thisProduct.id].price);
+      for (let key in formData){
+        console.log(formData[key]);
+        
+        for (let i=0; i<formData[key].length; i++){
+          console.log(key, formData[key][i]); 
+          if (key != 'amount'){
+            price += dataSource.products[thisProduct.id].params[key].options[formData[key][i]].price;
+          }
+          if (key == 'amount'){
+            price = price * formData[key][i];
+          }
+        }
+      }
+      console.log(price);
+      document.getElementById(thisProduct.id).getElementsByClassName('price')[0].innerHTML = price;
+    }
+
   }
+
+
 
   const app = {
     initData: function(){
