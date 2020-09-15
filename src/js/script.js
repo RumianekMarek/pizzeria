@@ -84,12 +84,13 @@
       thisProduct.formInputs = thisProduct.form.querySelectorAll(select.all.formInputs);
       thisProduct.cartButton = thisProduct.element.querySelector(select.menuProduct.cartButton);
       thisProduct.priceElem = thisProduct.element.querySelector(select.menuProduct.priceElem);
+      thisProduct.imageWrapper = thisProduct.element.querySelector(select.menuProduct.imageWrapper);
 
-      //console.log('acordingTriger', thisProduct.accordionTrigger);
-      //console.log('form', thisProduct.form);
-      //console.log('input',thisProduct.formInputs);
-      //console.log('cartButton', thisProduct.cartButton);
-      //console.log('thisProduct', thisProduct.priceElem);
+      // console.log('triger', thisProduct.accordionTrigger);
+      // console.log('form', thisProduct.form);
+      // console.log('button', thisProduct.cartButton);
+      // console.log('price', thisProduct.priceElem);
+      // console.log('wrapper', thisProduct.imageWrapper);
 
     }
 
@@ -127,13 +128,8 @@
       const thisProduct = this;
       const formData = utils.serializeFormToObject(thisProduct.form);
       let price = dataSource.products[thisProduct.id].price;
-      console.log('formData', formData);
-      console.log(thisProduct.id, dataSource.products[thisProduct.id].price);
       for (let key in formData){
-        console.log(formData[key]);
-        
         for (let i=0; i<formData[key].length; i++){
-          console.log(key, formData[key][i]); 
           if (key != 'amount'){
             price += dataSource.products[thisProduct.id].params[key].options[formData[key][i]].price;
           }
@@ -141,11 +137,30 @@
             price = price * formData[key][i];
           }
         }
+        document.getElementById(thisProduct.id).getElementsByClassName('price')[0].innerHTML = price;
       }
-      console.log(price);
-      document.getElementById(thisProduct.id).getElementsByClassName('price')[0].innerHTML = price;
-    }
 
+      if (thisProduct.id == 'pizza' || thisProduct.id == 'salad'){
+        let imageArray = thisProduct.imageWrapper.querySelectorAll('img');
+        for (let i=0; i<imageArray.length; i++){
+          imageArray[i].classList.remove('active');
+          if (imageArray[i].classList == '') imageArray[i].classList.add('active');
+        }
+
+        for(let key in formData){
+          if (key !='amount'){
+            const array = thisProduct.form.querySelectorAll('input');
+            for (let i=0; i<array.length - 1; i++){
+              if (array[i].checked == true){
+                let target = key + '-' + array[i].id;
+                if (document.querySelector('img.' + target) != null)
+                  document.querySelector('img.' + target).classList.add('active');
+              }
+            }
+          }
+        }
+      }
+    }
   }
 
 
