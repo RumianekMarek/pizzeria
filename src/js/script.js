@@ -129,9 +129,9 @@
             price += dataSource.products[thisProduct.id].params[key].options[formData[key][i]].price;
           }
         }
-        price *= thisProduct.amountWidget.value;
-        document.getElementById(thisProduct.id).getElementsByClassName('price')[0].innerHTML = price;
       }
+      price = price * thisProduct.amountWidget.value;
+      document.getElementById(thisProduct.id).getElementsByClassName('price')[0].innerHTML = price;
 
       if (thisProduct.id == 'pizza' || thisProduct.id == 'salad'){
         let imageArray = thisProduct.imageWrapper.querySelectorAll('img');
