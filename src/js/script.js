@@ -194,17 +194,23 @@
 
     setValue(value){
       const thisWidget = this;
-
+      console.log(value);
       const newValue = parseInt(value);
-
-      thisWidget.value = newValue;
-      thisWidget.announce();
+      const max = 9;
+      const min = 1;
+      if (newValue >= min && newValue <= max){
+        thisWidget.value = newValue;
+        thisWidget.announce();
+      }
+      
       thisWidget.input.value = thisWidget.value;
     }
 
     initActions(){
       const thisWidget = this;
-      thisWidget.input.addEventListener('change', thisWidget.setValue(thisWidget.input.value));
+      thisWidget.input.addEventListener('change', function(){
+        thisWidget.setValue(thisWidget.input.value);
+      });
       thisWidget.linkDecrease.addEventListener('click', function(){
         thisWidget.setValue(parseInt(thisWidget.input.value) - 1);
       });
