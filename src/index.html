@@ -18,7 +18,7 @@
           <h1 class="logo__title"><span>Mamma</span>Mia!</h1>
           <h2 class="logo__subtitle">the best homemade Italian food</h2>
         </div>
-        <div id="cart" class="cart">
+        <div id="cart" class="cart active">
           <div class="cart__summary">
             <span class="cart__total-number">0</span>
             <span class="cart__total-price">Total price: $<strong>0</strong></span>
@@ -72,8 +72,9 @@
         <ul class="cart__product-details no-spacing">
           {{#each params}}
             <li>
-              <span class="cart__product-details-label">{{ label }}</span>
-              <span>{{#joinValues options}}, {{/joinValues}}</span>
+              <!-- <span class="cart__product-details-label">{{ label }}</span> -->
+              <span class="cart__product-details-label"></span>
+              <!-- <span>{{#joinValues options}}, {{/joinValues}}</span> -->
             </li>
           {{/each}}
         </ul>
