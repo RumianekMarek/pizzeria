@@ -286,6 +286,8 @@
       thisCart.price = thisCart.dom.wrapper.querySelector(select.cartProduct.price);
       thisCart.productList = thisCart.dom.wrapper.querySelector(select.cart.productList);
       thisCart.dom.form = thisCart.dom.wrapper.querySelector(select.cart.form);
+      thisCart.phone = thisCart.dom.wrapper.querySelector(select.cart.phone);
+      thisCart.address = thisCart.dom.wrapper.querySelector(select.cart.address);
       thisCart.renderTotalsKeys = ['totalNumber', 'totalPrice', 'subtotalPrice', 'deliveryFee'];
       for(let key of thisCart.renderTotalsKeys){
         thisCart.dom[key] = thisCart.dom.wrapper.querySelectorAll(select.cart[key]);
@@ -309,6 +311,7 @@
       thisCart.dom.form.addEventListener('submit', function(){
         event.preventDefault();
         thisCart.sendOrder();
+        console.log(thisCart);
       });
     }
 
@@ -362,14 +365,23 @@
     }
 
     sendOrder(){
+      
       const thisCart = this;
       const url = settings.db.url + '/' + settings.db.order;
+      const cartProductsArray = [];
 
       const payload = {
-        address: 'test',
+        address: thisCart.address.value,
+        phone: thisCart.phone.value,
         totalPrice: thisCart.totalPrice,
       };
 
+      for (let i=0; i<thisCart.products.length; i++){
+        cartProductsArray.push(this.productsDetail(i));
+        console.log(cartProductsArray[i]);
+        payload[cartProductsArray[i].type] = JSON.stringify(cartProductsArray[i].params);
+      }
+      
       const options = {
         method: 'POST',
         headers: {
@@ -377,12 +389,23 @@
         },
         body: JSON.stringify(payload),
       };
+
+      
+      console.log(options);
       fetch(url,options)
         .then(function(response){
           return response.json();
         }).then(function(parsedResponse){
           console.log(parsedResponse);
         });
+    }
+
+    productsDetail(i){
+      const product = {
+        type: this.products[i].id,
+        params: this.products[i].params.ingredients.options 
+      };
+      return product;
     }
   }
 
