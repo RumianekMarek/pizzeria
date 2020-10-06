@@ -1,7 +1,8 @@
+/* global Handlebars */
 import {dataSource} from './data.js';
 
 export const utils = {};
-export const Handlebars = {};
+//export const Handlebars = {};
 
 utils.createDOMFromHTML = function(htmlString) {
   let div = document.createElement('div');
@@ -53,3 +54,5 @@ Handlebars.registerHelper('ifEquals', function(arg1, arg2, options) {
 Handlebars.registerHelper('joinValues', function(input, options) {
   return Object.values(input).join(options.fn(this));
 });
+
+export default utils;

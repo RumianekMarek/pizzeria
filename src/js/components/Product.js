@@ -132,6 +132,7 @@ export class Product{
         product: thisProduct,
       },
     });
-    thisProduct.elemnet.dispatchEvent(event);
+    console.log(event);
+    thisProduct.element.dispatchEvent(event);
   }
 }
