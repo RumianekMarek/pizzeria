@@ -1,6 +1,7 @@
 import {Product} from './components/Product.js';
 import {Cart} from './components/Cart.js';
-import {select, settings} from './settings.js';
+import {Booking} from './components/Booking.js';
+import {select, settings, classNames} from './settings.js';
 
 const app = {
   initData: function(){
@@ -39,11 +40,63 @@ const app = {
     thisApp.cart = new Cart(cartElem);
   },
 
+  initPages: function(){
+    const thisApp = this;
+
+    thisApp.pages = Array.from(document.querySelector(select.containerOf.pages).children);
+    thisApp.navLinks = Array.from(document.querySelectorAll(select.nav.links));
+
+    let  pagesMatchingHash = [];
+
+    if(window.location.hash.length > 2){
+      const idFromHash = window.location.hash.replace('#/', '');
+
+      pagesMatchingHash = thisApp.pages.filter(function(page){
+        return page.id == idFromHash;
+      });
+    }
+
+    thisApp.activatePage(pagesMatchingHash.length ? pagesMatchingHash[0].id : thisApp.pages[0].id);
+
+    for(let link of thisApp.navLinks){
+      link.addEventListener('click', function(event){
+        const clickedElement = this;
+        event.preventDefault();
+
+        let pageId = clickedElement.getAttribute('href');
+        pageId = pageId.replace('#', '');
+        thisApp.activatePage(pageId);
+      });
+    }
+  },
+
+  activatePage: function(pageId) {
+    const thisApp = this;
+    window.location.hash = '#/' + pageId;
+    for(let link of thisApp.navLinks){
+      link.classList.toggle(classNames.nav.active, link.getAttribute('href') == '#' + pageId);
+    }
+
+    for(let link of thisApp.pages){
+      link.classList.toggle(classNames.nav.active, link.getAttribute('id') == pageId);
+    }
+  },
+
+  initBooking: function(){
+    const thisApp = this;
+    const bookingWidget = document.querySelector(select.containerOf.booking);
+
+    thisApp.booking = new Booking(bookingWidget);
+  },
+  
+
   init: function(){
     const thisApp = this;
 
+    thisApp.initPages();
     thisApp.initData();
     thisApp.initCart();
+    thisApp.initBooking();
   },
 };
 app.init();
