@@ -79,7 +79,8 @@ export class Cart{
     thisCart.subtotalPrice = 0;
     for(let i=0; i<thisCart.products.length; i++){
       thisCart.subtotalPrice += thisCart.products[i].fullPrice;
-      thisCart.totalNumber += thisCart.products[i].amountWidget.value;
+      thisCart.totalNumber = thisCart.products.length;
+      console.log(thisCart.products.length);
     }
     thisCart.totalPrice = thisCart.subtotalPrice + thisCart.deliveryFee;
     for(let key of thisCart.renderTotalsKeys){

@@ -72,11 +72,9 @@ export class CartProduct{
     if (priceCheck < thisCartProduct.fullPrice){
       thisCartProduct.subtotal.innerText = parseInt(thisCartProduct.subtotal.innerText) + parseInt(thisCartProduct.priceSingle);
       thisCartProduct.totalTop.innerText = parseInt(thisCartProduct.totalTop.innerText) + parseInt(thisCartProduct.priceSingle);
-      thisCartProduct.totalNumber.innerText = parseInt(thisCartProduct.totalNumber.innerText) + 1;
     } else {
       thisCartProduct.subtotal.innerText = +thisCartProduct.subtotal.innerText - parseInt(thisCartProduct.priceSingle);
       thisCartProduct.totalTop.innerText = parseInt(thisCartProduct.totalTop.innerText) - parseInt(thisCartProduct.priceSingle);
-      thisCartProduct.totalNumber.innerText = parseInt(thisCartProduct.totalNumber.innerText) - 1;
     }
     thisCartProduct.totalCart.innerText = thisCartProduct.totalTop.innerText;
   }

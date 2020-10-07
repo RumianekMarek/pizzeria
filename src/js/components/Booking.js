@@ -22,6 +22,5 @@ export class Booking{
   initWidget(){
     this.dom.peopleAmount.widget = new AmountWidget(this.dom.peopleAmount);
     this.dom.hoursAmount.widget = new AmountWidget(this.dom.hoursAmount);
-    console.log(this.dom);
   }
 }
