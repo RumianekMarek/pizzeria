@@ -1,7 +1,8 @@
+/* global flatpickr */
 import { utils } from '../utils.js';
 import { select } from '../settings.js';
 import {BaseWidget} from './BaseWidget.js';
-import flatpickr from'flatpickr';
+//import {flatpickr} from '../../index.html';
 
 export class DataPicker extends BaseWidget {
   constructor(wrapper){
@@ -13,9 +14,7 @@ export class DataPicker extends BaseWidget {
   
   initPlugin(){
     this.minDate = utils.dateToStr(new Date(this.value));
-    this.maxDate = utils.dateToStr(utils.addDays(this.value, 14));
-    console.log(this.minDate, '', this.maxDate);
-    
+    this.maxDate = utils.dateToStr(utils.addDays(this.value, 14));    
     this.dom.datePicker = flatpickr(this.dom.input, {
       defaultDate: this.minDate,
       maxDate: this.maxDate,
