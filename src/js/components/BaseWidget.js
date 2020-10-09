@@ -15,7 +15,7 @@ export class BaseWidget{
   set value(assignedValue){
     const thisWidget = this;
     const newValue = thisWidget.parseValue(assignedValue);
-    if(newValue != thisWidget.corectValue && thisWidget.isValid(newValue)){
+    if(newValue != thisWidget.correctValue && thisWidget.isValid(newValue)){
       thisWidget.correctValue = newValue;
       thisWidget.announce();
     }
@@ -37,7 +37,7 @@ export class BaseWidget{
   announce(){
     const thisWidget = this;
     const event = new CustomEvent('updated', {
-      bubles: true
+      bubbles : true
     });
     thisWidget.dom.wrapper.dispatchEvent(event);
   }
