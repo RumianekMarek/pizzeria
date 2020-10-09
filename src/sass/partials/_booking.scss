@@ -156,11 +156,16 @@
       }
 
     }
+    
+    &.reserv {
+      border: 5px solid red;
+
+    }
 
     &.booked {
       cursor: not-allowed;
       color: lighten($color-dark, 40%);
-
+    
       &::after {
         position: absolute;
         content: '';

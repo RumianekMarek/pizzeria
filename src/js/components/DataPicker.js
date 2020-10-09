@@ -8,8 +8,6 @@ export class DataPicker extends BaseWidget {
     super(wrapper, utils.dateToStr(new Date()));
     this.dom.input = this.dom.wrapper.querySelector(select.widgets.datePicker.input);
     this.initPlugin();
-    console.log('1');
-    //this.parseValue();
   }
 
   initPlugin(){
