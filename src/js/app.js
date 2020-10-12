@@ -2,10 +2,21 @@ import {Product} from './components/Product.js';
 import {Cart} from './components/Cart.js';
 import {Booking} from './components/Booking.js';
 import {select, settings, classNames} from './settings.js';
+import {MainMenu} from './components/MainMenu.js';
 
-const app = {
+export const app = {
+
+  initMain: function(){
+    new MainMenu();
+  },
+
   initData: function(){
     const thisApp = this;
+    
+    document.querySelector('[href="#order"]').removeAttribute('style');
+    document.querySelector('[href="#booking"]').removeAttribute('style');
+    document.querySelector('#cart').removeAttribute('style');
+
     thisApp.data = {};
     const url = settings.db.url + '/' + settings.db.product;
     fetch(url)
@@ -13,10 +24,8 @@ const app = {
         return rawResponse.json();
       })
       .then(function(parsedResponse){
-    
-        /* save parsedResponse as thisApp.data.products */
+
         thisApp.data.products = parsedResponse;
-        /*execute initMenu method */
         thisApp.initMenu();
       });
   },
@@ -45,6 +54,8 @@ const app = {
 
     thisApp.pages = Array.from(document.querySelector(select.containerOf.pages).children);
     thisApp.navLinks = Array.from(document.querySelectorAll(select.nav.links));
+    thisApp.navLinks[0].classList.remove('active');
+    console.log(thisApp.navLinks);
 
     let  pagesMatchingHash = [];
 
@@ -71,6 +82,7 @@ const app = {
   },
 
   activatePage: function(pageId) {
+    console.log(pageId);
     const thisApp = this;
     window.location.hash = '#/' + pageId;
     for(let link of thisApp.navLinks){
@@ -92,6 +104,7 @@ const app = {
 
   init: function(){
     const thisApp = this;
+    console.log('init');
 
     thisApp.initPages();
     thisApp.initData();
@@ -99,4 +112,4 @@ const app = {
     thisApp.initBooking();
   },
 };
-app.init();
+app.initMain();
