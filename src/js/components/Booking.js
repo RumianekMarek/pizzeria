@@ -31,11 +31,10 @@ export class Booking{
     this.dom.hoursAmount.widget = new AmountWidget(this.dom.hoursAmount);
     this.datePicker = new DataPicker(this.dom.datePicker);
     this.hourPicker = new HourPicker(this.dom.hourPicker);
-    console.log(this.dom.wrapper);
-    console.log(this.dom.tables);
     this.dom.wrapper.addEventListener('updated', function(){
       thisBooking.updateDOM();
     });
+    console.log(this.dom);
     
     for(let i=0; i<this.dom.tables.length; i++){
       this.map.querySelector('[data-table="'+(i+1)+'"]').addEventListener('click',function(){
@@ -105,7 +104,6 @@ export class Booking{
         }
       }
     }
-    console.log(this.booked);
     this.updateDOM();
   }
 
@@ -120,24 +118,32 @@ export class Booking{
         this.booked[event.date][hour] = []; 
       }
       this.booked[event.date][hour].push(event.table);
-    } 
+    }
   }
 
   updateDOM(){
     for (let i=0; i<this.dom.tables.length; i++){
       this.dom.tables[i].classList.remove(classNames.booking.tableBooked);
     }
-
     this.date = this.datePicker.value;
     this.hour = this.hourPicker.value;
     for(let date in this.booked){
       if (this.date == date){
         for(let hour in this.booked[date]){
-          if (this.hour == hour){
+          if (this.hour == hour || (Number(this.hour) == Number(hour + 0.5) )) {
             for(let i=0; i<this.booked[date][hour].length; i++){
               for(let j=0; j<this.dom.tables.length; j++){
                 if(this.dom.tables[j].dataset.table == this.booked[date][hour][i]){
                   this.dom.tables[j].classList.add(classNames.booking.tableBooked);
+                }
+              }
+            }
+            if(this.booked[date][(Number(hour)+0.5)] != undefined){
+              for(let i=0; i<this.booked[date][(Number(hour)+0.5)].length; i++){
+                for(let j=0; j<this.dom.tables.length; j++){
+                  if(this.dom.tables[j].dataset.table == this.booked[date][(Number(hour)+0.5)][i]){
+                    this.dom.tables[j].classList.add(classNames.booking.tableBooked);
+                  }
                 }
               }
             }
@@ -155,6 +161,10 @@ export class Booking{
         this.map.querySelector('.warning').remove();
       }
     }
+    settings.amountWidget.defaultMax = this.tableCheck(table);
+    document.querySelector('[name="hours"]').value = 1;
+    this.dom.hoursAmount.widget.correctValue = 1;
+    console.log(this.dom.hoursAmount.widget.correctValue);
   }
 
   bookedRemove(){
@@ -224,6 +234,30 @@ export class Booking{
       }).then(function(parsedResponse){
         console.log(parsedResponse);
       });
+  }
 
+  tableCheck(table){
+    const thisBooking = this;
+    const tableIndex = table.innerText.charAt(table.innerText.length-1);
+    const array = [];
+    for( let key in this.booked[this.datePicker.value]){
+      for (let i=0; i<this.booked[this.datePicker.value][key].length; i++){
+        if (this.booked[this.datePicker.value][key][i] == tableIndex){
+          array.push(key);
+        }        
+      }
+    }
+    array.push('23');
+    array.sort();
+
+    let closestHour = 0;
+    for (let key in array){
+      if(thisBooking.hourPicker.value < array[key]){
+        closestHour = array[key];
+        break;
+      }
+    }
+    const maxTime = closestHour - this.hourPicker.value;
+    return maxTime;    
   }
 }

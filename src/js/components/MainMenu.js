@@ -113,7 +113,5 @@ export class MainMenu {
     gallery.append(galleryImage6);
 
     mainDiv.appendChild(link);
-
-    console.log(mainDiv);
   }
 }

@@ -55,7 +55,6 @@ export const app = {
     thisApp.pages = Array.from(document.querySelector(select.containerOf.pages).children);
     thisApp.navLinks = Array.from(document.querySelectorAll(select.nav.links));
     thisApp.navLinks[0].classList.remove('active');
-    console.log(thisApp.navLinks);
 
     let  pagesMatchingHash = [];
 
@@ -82,7 +81,6 @@ export const app = {
   },
 
   activatePage: function(pageId) {
-    console.log(pageId);
     const thisApp = this;
     window.location.hash = '#/' + pageId;
     for(let link of thisApp.navLinks){
@@ -104,7 +102,6 @@ export const app = {
 
   init: function(){
     const thisApp = this;
-    console.log('init');
 
     thisApp.initPages();
     thisApp.initData();

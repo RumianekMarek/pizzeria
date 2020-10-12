@@ -35,5 +35,9 @@ export class HourPicker extends BaseWidget{
   setValue(position){
     this.value = position;
     this.dom.output.innerText = utils.numberToHour(this.value);
+    
+    for(let i=0; i<3; i++){
+      document.querySelector('[data-table="'+(i+1)+'"]').classList.remove('reserv');
+    }
   }
 }
