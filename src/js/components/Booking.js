@@ -34,7 +34,6 @@ export class Booking{
     this.dom.wrapper.addEventListener('updated', function(){
       thisBooking.updateDOM();
     });
-    console.log(this.dom);
     
     for(let i=0; i<this.dom.tables.length; i++){
       this.map.querySelector('[data-table="'+(i+1)+'"]').addEventListener('click',function(){
@@ -105,6 +104,7 @@ export class Booking{
       }
     }
     this.updateDOM();
+    console.log(this.booked);
   }
 
   makeBooked(event){
