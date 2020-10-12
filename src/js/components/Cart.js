@@ -47,7 +47,6 @@ export class Cart{
     thisCart.dom.form.addEventListener('submit', function(){
       event.preventDefault();
       thisCart.sendOrder();
-      console.log(thisCart);
     });
   }
 
